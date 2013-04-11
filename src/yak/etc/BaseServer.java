@@ -146,7 +146,6 @@ public abstract class BaseServer extends Yak {
 			}
 
 			System.err.println("CONTENT: " + CurlyEncode(new String(content)));
-
 		}
 	}
 

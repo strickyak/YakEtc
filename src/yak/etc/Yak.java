@@ -81,4 +81,15 @@ public abstract class Yak {
 		sb.append("}");
 		return sb.toString();
 	}
+	
+	public static String Join(String[] a, String delim) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < a.length; i++) {
+			if (i > 0) {
+				sb.append(delim);
+			}
+			sb.append(a[i]);
+		}
+		return sb.toString();
+	}
 }
