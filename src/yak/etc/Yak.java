@@ -1,8 +1,21 @@
 package yak.etc;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 
 public abstract class Yak {
+
 	public static int ValueOfHexChar(char c) {
 		if ('0' <= c && c <= '9') {
 			return c - '0';
@@ -81,7 +94,7 @@ public abstract class Yak {
 		sb.append("}");
 		return sb.toString();
 	}
-	
+
 	public static String Join(String[] a, String delim) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < a.length; i++) {
@@ -91,5 +104,56 @@ public abstract class Yak {
 			sb.append(a[i]);
 		}
 		return sb.toString();
+	}
+
+	public static String Hash(String s) {
+		char x = 0;
+		final int n = s.length();
+		for (int i = 0; i < n; i++) {
+			x += s.charAt(i);
+		}
+		return Integer.toString((int) x);
+	}
+
+	public static String ReadWholeFile(File f) throws IOException {
+		BufferedReader r = new BufferedReader(new InputStreamReader(
+				new FileInputStream(f)));
+		String z = r.readLine();
+		r.close();
+		return z;
+	}
+
+	public static void WriteWholeFile(File f, String value) throws IOException {
+		BufferedWriter w = new BufferedWriter(new OutputStreamWriter(
+				new FileOutputStream(f)));
+		w.write(value);
+		w.close();
+	}
+
+	public static String ReadAll(InputStream in) throws IOException {
+		// TODO Auto-generated method stub
+		StringBuffer sb = new StringBuffer();
+		while (true) {
+			int x = in.read();
+			if (x < 0) {
+				break;
+			}
+			sb.append((char) x);
+		}
+		return sb.toString();
+	}
+
+	public static String ReadUrl(String url) throws IOException {
+		return ReadUrl(new URL(url));
+	}
+
+	public static String ReadUrl(URL url) throws IOException {
+		URLConnection conn = url.openConnection();
+		conn.connect();
+		InputStream in = (InputStream) conn.getContent();
+		System.err.println("RESULT=" + in);
+
+		String s = ReadAll(in);
+		return s;
 	}
 }
